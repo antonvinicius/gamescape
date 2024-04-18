@@ -5,5 +5,5 @@ export const Logo = styled.Image.attrs({
   source: logo
 })
   `
-  align-self: center
+  align-self: center;
 `
