@@ -19,6 +19,9 @@
       "@themes/*": [
         "./src/themes/*"
       ],
+      "@assets/*": [
+        "./src/assets/*"
+      ],
     },
   }
 }
