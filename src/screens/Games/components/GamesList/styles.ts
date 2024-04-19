@@ -8,8 +8,8 @@ type GameProps = {
 
 export const Game = styled.TouchableOpacity<GameProps>`
   background-color: ${props => props.isEmpty ? props.theme.COLORS.GRAY_400 : props.theme.COLORS.PRIMARY};
-  height: 119px;
-  width: 180px;
+  height: 119px; 
+  width: 48.5%;
   border-radius: 6px;
   align-items: center;
   justify-content: center; 

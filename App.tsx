@@ -2,6 +2,7 @@ import { useFonts, Poppins_400Regular, Poppins_700Bold } from '@expo-google-font
 import { ThemeProvider } from 'styled-components/native';
 import { Games } from '@screens/Games';
 import defaultTheme from '@themes/defaultTheme';
+import { NewGame } from '@screens/NewGame';
 
 export default function App() {
   let [fontsLoaded, fontError] = useFonts({
@@ -15,7 +16,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      <Games />
+      <NewGame />
     </ThemeProvider>
   );
 } 

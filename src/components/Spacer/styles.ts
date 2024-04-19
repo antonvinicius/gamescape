@@ -5,6 +5,7 @@ type Props = {
   top?: number;
   left?: number;
   right?: number;
+  flex?: number;
 }
 
 export const Container = styled.View<Props>`
@@ -22,5 +23,9 @@ export const Container = styled.View<Props>`
 
   ${props => props.right && css`
     margin-right: ${props.right}px;
+  `}
+
+  ${props => props.flex && css`
+    flex: ${props.flex}
   `}
 `

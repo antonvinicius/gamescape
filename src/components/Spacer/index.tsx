@@ -5,15 +5,17 @@ type Props = {
   top?: number;
   left?: number;
   right?: number;
+  flex?: number;
 }
 
-export function Spacer({ bottom, top, left, right }: Props) {
+export function Spacer({ bottom, top, left, right, flex }: Props) {
   return (
     <Container
       bottom={bottom}
       top={top}
       left={left}
       right={right}
+      flex={flex}
     />
   )
 }
