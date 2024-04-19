@@ -4,9 +4,11 @@ import { Game, AddIcon } from "./styles";
 
 type Props = {
   games: string[]
+  onAddGame: () => void,
+  onGameTap: () => void
 }
 
-export function GamesList({ games }: Props) {
+export function GamesList({ games, onAddGame, onGameTap }: Props) {
   return (
     <FlatList
       numColumns={2}
@@ -17,11 +19,11 @@ export function GamesList({ games }: Props) {
       }}
       renderItem={({ item }) => (
         item === 'plus' ? (
-          <Game isEmpty={false}>
+          <Game isEmpty={false} onPress={onAddGame}>
             <AddIcon />
           </Game>
         ) : (
-          <Game isEmpty>
+          <Game isEmpty onPress={onGameTap}>
             <TextDisplay center>{item}</TextDisplay>
           </Game>
         )
