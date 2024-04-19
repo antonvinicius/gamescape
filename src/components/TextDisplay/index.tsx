@@ -4,9 +4,10 @@ import { Label } from "./styles";
 
 type Props = TextProps & {
   children: ReactNode,
-  weight?: 'regular' | 'bold'
+  weight?: 'regular' | 'bold',
+  center?: boolean
 }
 
-export function TextDisplay({ children, weight = 'regular', ...rest }: Props) {
-  return <Label weight={weight}>{children}</Label>
+export function TextDisplay({ children, weight = 'regular', center = false, ...rest }: Props) {
+  return <Label weight={weight} center={center} {...rest}>{children}</Label>
 }
