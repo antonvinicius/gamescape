@@ -11,7 +11,7 @@ export async function gameInsert(game: Game) {
 
     const games = await gameGet()
 
-    if (games.includes(game)) throw new AppError('Game already registered. Input other game.')
+    if (games.includes(game)) throw new AppError('O Game já está registrado. Tente colocar outro nome.')
 
     const newGames = [...games, game]
 

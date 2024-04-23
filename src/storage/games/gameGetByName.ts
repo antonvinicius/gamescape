@@ -7,7 +7,7 @@ export async function gameGetByName(name: string): Promise<Game> {
     const games = await gameGet()
     const targetGame = games.find(game => game.name === name)
 
-    if (!targetGame) throw new AppError('Game not found. Please, try again.')
+    if (!targetGame) throw new AppError('Jogo não encontrado. Tente novamente')
 
     return targetGame
   } catch (error) {
