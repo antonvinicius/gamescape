@@ -3,26 +3,47 @@ import { Logo } from "./styles";
 import { Input } from "@components/Input";
 import { Spacer } from "@components/Spacer";
 import { GamesList } from "./components/GamesList";
-import { useNavigation } from "@react-navigation/native";
-import { useState } from "react";
+import { useFocusEffect, useNavigation } from "@react-navigation/native";
+import { useCallback, useEffect, useRef, useState } from "react";
+import { gameGet } from "src/storage/games/gameGet";
+import { Game, GameStatus } from "src/storage/games/Game";
 
 export function Games() {
   const navigation = useNavigation()
   const [searchField, setSearchField] = useState('')
-  const [games, setGames] = useState(['Batman: Arhkam Asylum 2', 'spider-man 2', 'plus'])
+  const [games, setGames] = useState<Game[]>([])
 
-  const filteredItems = searchField.length > 2 ? games.filter(game => game.toLowerCase().includes(searchField.toLowerCase())) : games
+  const filteredItems = searchField.length > 2 ? games.filter(game => game.name.toLowerCase().includes(searchField.toLowerCase())) : games
 
   function handleAddGame() {
     navigation.navigate('NewGame')
   }
 
-  function handleGameTap(name: string) {
-    navigation.navigate('GameDetails', { name })
+  function handleGameTap(game: Game) {
+    navigation.navigate('GameDetails', { name: game.name })
     setInterval(() => {
       setSearchField('')
     }, 300)
   }
+
+  async function fetchGames() {
+    const games = await gameGet()
+    setGames([...games, {
+      name: 'plus',
+      genre: '',
+      platform: '',
+      status: GameStatus.OWNED
+    }])
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchGames()
+    }, [])
+  );
+
+  useEffect(() => {
+  }, [searchField])
 
   return (
     <ScreenContainer>

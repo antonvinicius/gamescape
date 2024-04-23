@@ -7,7 +7,12 @@ import { Heart } from "phosphor-react-native";
 import { useTheme } from "styled-components/native";
 import { View } from "react-native";
 import { Button } from "@components/Button";
-import { useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { useEffect, useState } from "react";
+import { Game, GameStatus } from "src/storage/games/Game";
+import { gameGetByName } from "src/storage/games/gameGetByName";
+import { throwable } from "@utils/errorHandler";
+import { gameRemove } from "src/storage/games/gameRemove";
 
 type Params = {
   name: string
@@ -15,14 +20,31 @@ type Params = {
 
 export function GameDetails() {
   const theme = useTheme()
+  const navigation = useNavigation()
   const { name } = useRoute().params as Params
+  const [game, setGame] = useState({} as Game)
+
+  async function fetchGame() {
+    throwable(async () => {
+      setGame(await gameGetByName(name))
+    })
+  }
+
+  async function removeGame() {
+    await gameRemove(game)
+    navigation.navigate('Games')
+  }
+
+  useEffect(() => {
+    fetchGame()
+  }, [])
 
   return (
     <Container>
       <HeaderContainer>
         <Header />
         <Spacer bottom={100} />
-        <Title>{name}</Title>
+        <Title>{game.name}</Title>
         <Border />
         <Spacer
           bottom={168}
@@ -33,12 +55,12 @@ export function GameDetails() {
         <View style={{ flex: 1, justifyContent: 'center' }}>
           <Row>
             <RowItem>
-              <TextDisplay weight='bold' center>Aventura</TextDisplay>
+              <TextDisplay weight='bold' center>{game.genre}</TextDisplay>
               <TextDisplay center>Gênero</TextDisplay>
             </RowItem>
 
             <RowItem>
-              <TextDisplay weight='bold' center>PS5</TextDisplay>
+              <TextDisplay weight='bold' center>{game.platform}</TextDisplay>
               <TextDisplay center>Plataforma</TextDisplay>
             </RowItem>
           </Row>
@@ -51,13 +73,16 @@ export function GameDetails() {
               color={theme.COLORS.PRIMARY}
               weight='fill'
             />
-            <TextDisplay center>Lista de Desejos</TextDisplay>
+            <TextDisplay center>
+              {game.status === GameStatus.OWNED && 'Já possuo'}
+              {game.status === GameStatus.WISH && 'Lista de Desejos'}
+            </TextDisplay>
           </LastRow>
         </View>
       </MainSection>
 
       <View style={{ padding: 20 }}>
-        <Button>Remover</Button>
+        <Button onPress={removeGame}>Remover</Button>
       </View>
     </Container>
   )

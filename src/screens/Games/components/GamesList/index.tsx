@@ -3,12 +3,13 @@ import { FlatList, View } from "react-native";
 import { Game, AddIcon } from "./styles";
 import { Button } from "@components/Button";
 import { Spacer } from "@components/Spacer";
+import { Game as GameModel } from "src/storage/games/Game";
 
 type Props = {
-  games: string[],
+  games: GameModel[],
   isEmpty: boolean,
   onAddGame: () => void,
-  onGameTap: (name: string) => void
+  onGameTap: (name: GameModel) => void
 }
 
 export function GamesList({ games, onAddGame, onGameTap, isEmpty }: Props) {
@@ -24,13 +25,13 @@ export function GamesList({ games, onAddGame, onGameTap, isEmpty }: Props) {
         marginBottom: 15
       }}
       renderItem={({ item }) => (
-        item === 'plus' ? (
+        item.name === 'plus' ? (
           <Game isEmpty={false} onPress={onAddGame}>
             <AddIcon />
           </Game>
         ) : (
           <Game isEmpty onPress={() => onGameTap(item)}>
-            <TextDisplay center>{item}</TextDisplay>
+            <TextDisplay center>{item.name}</TextDisplay>
           </Game>
         )
       )}
