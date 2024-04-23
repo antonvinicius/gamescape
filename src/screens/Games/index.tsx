@@ -21,19 +21,23 @@ export function Games() {
 
   function handleGameTap(game: Game) {
     navigation.navigate('GameDetails', { name: game.name })
-    setInterval(() => {
+    setTimeout(() => {
       setSearchField('')
     }, 300)
   }
 
   async function fetchGames() {
     const games = await gameGet()
-    setGames([...games, {
-      name: 'plus',
-      genre: '',
-      platform: '',
-      status: GameStatus.OWNED
-    }])
+    if (games.length > 0) {
+      setGames([...games, {
+        name: 'plus',
+        genre: '',
+        platform: '',
+        status: GameStatus.OWNED
+      }])
+    } else {
+      setGames([])
+    }
   }
 
   useFocusEffect(
@@ -42,9 +46,7 @@ export function Games() {
     }, [])
   );
 
-  useEffect(() => {
-  }, [searchField])
-
+  console.log('oi')
   return (
     <ScreenContainer>
       <Logo />

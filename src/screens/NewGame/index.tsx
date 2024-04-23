@@ -7,11 +7,12 @@ import { TextDisplay } from "@components/TextDisplay";
 import { CheckFat, Heart } from "phosphor-react-native";
 import { useTheme } from "styled-components/native";
 import { Button } from "@components/Button";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { GameStatus } from "src/storage/games/Game";
 import { throwable } from "@utils/errorHandler";
 import { gameInsert } from "src/storage/games/gameInsert";
 import { useNavigation } from "@react-navigation/native";
+import { TextInput } from "react-native";
 
 export function NewGame() {
   const theme = useTheme()
@@ -20,6 +21,10 @@ export function NewGame() {
   const [name, setName] = useState('')
   const [genre, setGenre] = useState('')
   const [platform, setPlatform] = useState('')
+
+  const nameInput = useRef<TextInput>(null)
+  const genreInput = useRef<TextInput>(null)
+  const platformInput = useRef<TextInput>(null)
 
   function resetForm() {
     setName('')
@@ -46,21 +51,36 @@ export function NewGame() {
       <Header />
       <Spacer bottom={75} />
       <Input
+        reference={nameInput}
         placeholder="Nome do game"
         value={name}
         onChangeText={setName}
+        onSubmitEditing={() => {
+          genreInput.current?.focus()
+        }}
+        returnKeyType='next'
       />
       <Spacer bottom={20} />
       <Input
+        reference={genreInput}
         placeholder="Gênero"
         value={genre}
         onChangeText={setGenre}
+        onSubmitEditing={() => {
+          platformInput.current?.focus()
+        }}
+        returnKeyType='next'
       />
       <Spacer bottom={20} />
       <Input
+        reference={platformInput}
         placeholder="Plataforma"
         value={platform}
         onChangeText={setPlatform}
+        onSubmitEditing={() => {
+          handleSubmit()
+        }}
+        returnKeyType='done'
       />
       <Spacer bottom={20} />
 

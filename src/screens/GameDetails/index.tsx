@@ -3,7 +3,7 @@ import { ScreenContainer } from "@components/ScreenContainer";
 import { Border, Container, HeaderContainer, LastRow, MainSection, Row, RowItem, Title } from "./styles";
 import { Spacer } from "@components/Spacer";
 import { TextDisplay } from "@components/TextDisplay";
-import { Heart } from "phosphor-react-native";
+import { CheckFat, Heart } from "phosphor-react-native";
 import { useTheme } from "styled-components/native";
 import { View } from "react-native";
 import { Button } from "@components/Button";
@@ -32,7 +32,7 @@ export function GameDetails() {
 
   async function removeGame() {
     await gameRemove(game)
-    navigation.navigate('Games')
+    navigation.goBack()
   }
 
   useEffect(() => {
@@ -68,11 +68,19 @@ export function GameDetails() {
           <Spacer bottom={55} />
 
           <LastRow>
-            <Heart
-              size={52}
-              color={theme.COLORS.PRIMARY}
-              weight='fill'
-            />
+            {game.status === GameStatus.WISH ? (
+              <Heart
+                size={52}
+                color={theme.COLORS.PRIMARY}
+                weight='fill'
+              />
+            ) : (
+              <CheckFat
+                size={52}
+                color={theme.COLORS.PRIMARY}
+                weight='fill'
+              />
+            )}
             <TextDisplay center>
               {game.status === GameStatus.OWNED && 'Já possuo'}
               {game.status === GameStatus.WISH && 'Lista de Desejos'}
