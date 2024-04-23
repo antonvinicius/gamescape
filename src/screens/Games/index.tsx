@@ -46,7 +46,6 @@ export function Games() {
     }, [])
   );
 
-  console.log('oi')
   return (
     <ScreenContainer>
       <Logo />
