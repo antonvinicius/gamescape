@@ -54,7 +54,7 @@ export function GamesList({ games, onAddGame, onGameTap, isEmpty }: Props) {
           )}
         </View>
       )}
-      keyboardShouldPersistTaps
+      keyboardShouldPersistTaps='always'
       contentContainerStyle={isListEmpty || searchNotFound ? { flex: 1, justifyContent: 'center', alignItems: 'center' } : null}
     />
   )

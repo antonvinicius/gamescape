@@ -6,6 +6,9 @@ import { AppError } from "@utils/AppError";
 
 export async function gameInsert(game: Game) {
   try {
+    if (!game.name || !game.genre || !game.platform)
+      throw new AppError('Preencha todas as informações')
+
     const games = await gameGet()
 
     if (games.includes(game)) throw new AppError('Game already registered. Input other game.')

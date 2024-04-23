@@ -7,7 +7,7 @@ export class Game {
   ) { }
 }
 
-enum GameStatus {
+export enum GameStatus {
   OWNED,
   WISH
 }
