@@ -4,7 +4,9 @@ declare global {
   namespace ReactNavigation {
     interface RootParamList extends RootStackParamList {
       Games: undefined,
-      GameDetails: undefined,
+      GameDetails: {
+        name: string
+      },
       NewGame: undefined
     }
   }

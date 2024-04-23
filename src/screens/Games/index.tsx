@@ -4,28 +4,40 @@ import { Input } from "@components/Input";
 import { Spacer } from "@components/Spacer";
 import { GamesList } from "./components/GamesList";
 import { useNavigation } from "@react-navigation/native";
+import { useState } from "react";
 
 export function Games() {
-  const games = ['Batman: Arhkam Asylum 2', 'spider-man 2', 'plus']
   const navigation = useNavigation()
+  const [searchField, setSearchField] = useState('')
+  const [games, setGames] = useState(['Batman: Arhkam Asylum 2', 'spider-man 2', 'plus'])
+
+  const filteredItems = searchField.length > 2 ? games.filter(game => game.toLowerCase().includes(searchField.toLowerCase())) : games
 
   function handleAddGame() {
     navigation.navigate('NewGame')
   }
 
-  function handleGameTap() {
-    navigation.navigate('GameDetails')
+  function handleGameTap(name: string) {
+    navigation.navigate('GameDetails', { name })
+    setInterval(() => {
+      setSearchField('')
+    }, 300)
   }
 
   return (
     <ScreenContainer>
       <Logo />
       <Spacer bottom={53} />
-      <Input placeholder="Pesquise por um game..." />
+      <Input
+        placeholder="Pesquise por um game..."
+        value={searchField}
+        onChangeText={setSearchField}
+      />
       <Spacer bottom={20} />
 
       <GamesList
-        games={games}
+        isEmpty={games.length === 0}
+        games={filteredItems}
         onAddGame={handleAddGame}
         onGameTap={handleGameTap}
       />

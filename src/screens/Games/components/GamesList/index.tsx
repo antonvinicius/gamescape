@@ -5,13 +5,15 @@ import { Button } from "@components/Button";
 import { Spacer } from "@components/Spacer";
 
 type Props = {
-  games: string[]
+  games: string[],
+  isEmpty: boolean,
   onAddGame: () => void,
-  onGameTap: () => void
+  onGameTap: (name: string) => void
 }
 
-export function GamesList({ games, onAddGame, onGameTap }: Props) {
-  const isListEmpty = games.length === 0
+export function GamesList({ games, onAddGame, onGameTap, isEmpty }: Props) {
+  const isListEmpty = games.length === 0 && isEmpty
+  const searchNotFound = !isEmpty && games.length === 0
 
   return (
     <FlatList
@@ -27,22 +29,33 @@ export function GamesList({ games, onAddGame, onGameTap }: Props) {
             <AddIcon />
           </Game>
         ) : (
-          <Game isEmpty onPress={onGameTap}>
+          <Game isEmpty onPress={() => onGameTap(item)}>
             <TextDisplay center>{item}</TextDisplay>
           </Game>
         )
       )}
       ListEmptyComponent={() => (
         <View>
-          <TextDisplay center>
-            Nenhum jogo cadastrado. {'\n'}
-            Experimente cadastrar agora mesmo.
-          </TextDisplay>
-          <Spacer bottom={10} />
-          <Button onPress={onAddGame}>Cadastrar Game</Button>
+          {isListEmpty && (
+            <>
+              <TextDisplay center>
+                Nenhum jogo cadastrado. {'\n'}
+                Experimente cadastrar agora mesmo.
+              </TextDisplay>
+              <Spacer bottom={10} />
+              <Button onPress={onAddGame}>Cadastrar Game</Button>
+            </>
+          )}
+          {searchNotFound && (
+            <TextDisplay center>
+              Nenhum jogo encontrado {'\n'}
+              com esta busca.
+            </TextDisplay>
+          )}
         </View>
       )}
-      contentContainerStyle={isListEmpty ? { flex: 1, justifyContent: 'center', alignItems: 'center' } : null}
+      keyboardShouldPersistTaps
+      contentContainerStyle={isListEmpty || searchNotFound ? { flex: 1, justifyContent: 'center', alignItems: 'center' } : null}
     />
   )
 }

@@ -7,16 +7,22 @@ import { Heart } from "phosphor-react-native";
 import { useTheme } from "styled-components/native";
 import { View } from "react-native";
 import { Button } from "@components/Button";
+import { useRoute } from "@react-navigation/native";
+
+type Params = {
+  name: string
+}
 
 export function GameDetails() {
   const theme = useTheme()
+  const { name } = useRoute().params as Params
 
   return (
     <Container>
       <HeaderContainer>
         <Header />
         <Spacer bottom={100} />
-        <Title>Batman: Arkham Asylum</Title>
+        <Title>{name}</Title>
         <Border />
         <Spacer
           bottom={168}
